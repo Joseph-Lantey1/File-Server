@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from 'cors';
 import bodyParser from "body-parser";
 import userRoutes from "./routes/userRoutes";
+import passwordRoutes from "./routes/passwordRoutes";
 import db from "./connection/database";
 
 
@@ -33,6 +34,7 @@ class Server {
   private configureRoutes(): void {
    
     this.app.use("/api", userRoutes);
+    this.app.use("/api", passwordRoutes);
   }
 
   private async connectDatabase(): Promise<void> {
