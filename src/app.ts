@@ -1,7 +1,11 @@
-import express, { Application } from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
+import cors from 'cors';
+import bodyParser from "body-parser";
+import userRoutes from "./routes/userRoutes";
 import db from "./connection/database";
- // Update the path to your database module
+
+
 
 dotenv.config();
 
@@ -11,21 +15,34 @@ class Server {
 
   constructor() {
     this.app = express();
-    this.port = parseInt(process.env.PORT || "4000", 10);
+    this.port = 5000;
 
-    this.connectDatabase(); 
+    this.connectDatabase();
 
+    this.configureMiddleware();
+    this.configureRoutes(); 
     this.startServer();
+  }
+
+  private configureMiddleware(): void {
+    this.app.use(cors());
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+  }
+
+  private configureRoutes(): void {
+   
+    this.app.use("/api", userRoutes);
   }
 
   private async connectDatabase(): Promise<void> {
     try {
       await db.connect(); // Connect to the database
     } catch (error) {
-      console.error("Error connecting to the database:", error);
-      process.exit(1); // Exit the application if the database connection fails
+      console.error("Error connecting to the database:");
     }
   }
+  
 
   private startServer(): void {
     this.app.listen(this.port, () => {

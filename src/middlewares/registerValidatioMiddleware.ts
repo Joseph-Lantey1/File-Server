@@ -1,10 +1,10 @@
-import { Request, Response, NextFunction } from 'express';
-import { body, validationResult, Result, ValidationError } from 'express-validator';
+import { Request, Response, NextFunction } from "express";
+import { body, validationResult, Result, ValidationError } from "express-validator";
 
-class UserRegisterValidationMiddleware {
+export default class UserRegisterValidationMiddleware {
   static validate() {
     return [
-      body("username")
+      body("fullname")
         .isLength({ min: 4 })
         .withMessage('Username must be at least 4 characters')
         .exists()
@@ -18,7 +18,7 @@ class UserRegisterValidationMiddleware {
         .withMessage('Invalid Email')
         .exists(),
 
-      body('password')
+      body("password")
         .isLength({ min: 5, max: 30 })
         .withMessage('Password must be between 5 and 30 characters long')
         .matches(/\d/)
@@ -34,7 +34,6 @@ class UserRegisterValidationMiddleware {
             errors: errors.array(),
           });
         } else {
-          
           next();
         }
       },
@@ -42,4 +41,4 @@ class UserRegisterValidationMiddleware {
   }
 }
 
-export default UserRegisterValidationMiddleware;
+
