@@ -1,12 +1,12 @@
-import express, { Application, Request, Response, NextFunction } from "express";
+import express, { Application } from "express";
 import dotenv from "dotenv";
-import cors from 'cors';
+import cors from "cors";
 import bodyParser from "body-parser";
 import userRoutes from "./routes/userRoutes";
 import passwordRoutes from "./routes/passwordRoutes";
 import db from "./connection/database";
-
-
+import fileRoutes from "./routes/fileRoutes";
+import downloadRoutes from "./routes/downloadRoutes";
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ class Server {
     this.connectDatabase();
 
     this.configureMiddleware();
-    this.configureRoutes(); 
+    this.configureRoutes();
     this.startServer();
   }
 
@@ -32,9 +32,10 @@ class Server {
   }
 
   private configureRoutes(): void {
-   
     this.app.use("/api", userRoutes);
     this.app.use("/api", passwordRoutes);
+    this.app.use("/api", fileRoutes);
+    this.app.use("/api", downloadRoutes);
   }
 
   private async connectDatabase(): Promise<void> {
@@ -44,7 +45,6 @@ class Server {
       console.error("Error connecting to the database:");
     }
   }
-  
 
   private startServer(): void {
     this.app.listen(this.port, () => {

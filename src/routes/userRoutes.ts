@@ -1,8 +1,8 @@
-import { Router } from "express";
+import express from "express";
 import { userLogin, userSignup } from "../controllers/userControllers";
 import UserRegisterValidationMiddleware from "../middlewares/registerValidatioMiddleware";
 
-const router = Router();
+const router = express.Router();
 
 router.post("/signup", UserRegisterValidationMiddleware.validate(), userSignup);
 router.get("/login", userLogin);

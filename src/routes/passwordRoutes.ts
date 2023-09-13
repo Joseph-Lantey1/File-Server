@@ -1,10 +1,10 @@
-import { Router } from "express";
+import express from "express";
 import { changePassword, resetPassword } from "../controllers/passwordControllers";
 
 
-const router = Router();
+const router = express.Router();
 
 router.post("/changePassword", changePassword);
 router.post("/resetPassword", resetPassword);
 
-export default Router;
+export default router;
