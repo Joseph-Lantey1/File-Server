@@ -1,14 +1,16 @@
 import express from "express";
-import { resetPassword, reset } from "../controllers/passwordControllers";
+import { resetPassword, reset, resetPasswordPage, resetNewPassword } from "../controllers/passwordControllers";
 
 
 const router = express.Router();
 
 
 router.get("/reset", reset);
-router.post("/resetPassword", resetPassword);
 
-router.post("/resetPassword", resetPassword);
-router.post("/resetPassword", resetPassword);
+
+router.get("/reset-password", resetPasswordPage);
+router.post("/reset-password", resetNewPassword);
+
+
 
 export default router;

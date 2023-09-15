@@ -64,6 +64,10 @@ header {
     height: auto;
 }
 
+.profile h1{
+    font-size: large ;
+}
+
 .profile p a{
     text-decoration: none;
 }
@@ -79,7 +83,7 @@ header {
 
 #filename,
 #fileDescription {
-    width: 100%;
+    width: 30%;
     margin-top: 10px;
     padding: 10px;
     border: 1px solid #ccc;

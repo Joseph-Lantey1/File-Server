@@ -10,7 +10,7 @@ let files: FileData[] = []; // Initialize an empty array to hold files
 async function fetchFiles() {
   try {
     // Fetch the list of uploaded files
-    const response: Response = await fetch("/getUploadedFiles");
+    const response: Response = await fetch("/api/getUploadedFiles");
 
     if (response.ok) {
       // Parse the JSON response into an array of files
@@ -60,7 +60,7 @@ async function updateFileListAndDownloadFile(searchQuery: string | undefined = "
         const userEmail = prompt("Enter your email address:");
 
         if (userEmail !== null) { // Check if the user entered an email address
-          const emailResponse: Response = await fetch(`/emailDownload/${encodeURIComponent(file.filename)}?id=${file.id}`, {
+          const emailResponse: Response = await fetch(`/api/emailDownload/${encodeURIComponent(file.filename)}?id=${file.id}`, {
             method: "POST", // Change the HTTP method to POST/
             headers: {
               "Content-Type": "application/json",
@@ -70,6 +70,7 @@ async function updateFileListAndDownloadFile(searchQuery: string | undefined = "
 
           if (emailResponse.ok) {
             console.log("File sent to email successfully");
+            alert("Email sent successfully")
           } else {
             console.error("Error sending file to email:", emailResponse.statusText);
           }

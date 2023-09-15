@@ -9,6 +9,11 @@ export const reset =async (req:Request, res:Response) => {
     res.render("reset");
 }
 
+export const resetPasswordPage = (req: Request, res: Response) => {
+    const { token } = req.query;
+    res.render("resetPasswordPage", { token });
+  };
+
 
 export const resetPassword = async (req: Request, res: Response) => {
     const { email } = req.body;
@@ -31,7 +36,7 @@ export const resetPassword = async (req: Request, res: Response) => {
             },
         });
 
-        const link = `http://localhost:5000/reset-password?token=${resetToken}`;
+        const link = `http://localhost:5000/api/reset-password?token=${resetToken}`;
 
         const mailOptions = {
             from: "lizyfileshare@gmail.com",
@@ -52,3 +57,27 @@ export const resetPassword = async (req: Request, res: Response) => {
         return res.status(500).json({ message: "Error deleting file" });
     }
 }
+
+
+export const resetNewPassword = async (req: Request, res: Response) => {
+    const { token, password } = req.body;
+  
+    try {
+      // Verify and decode the token
+      const decodedToken = jwt.verify(token, "jbl") as { userId: string };
+  
+      // Update the user's password in the database
+      const hashedPassword = await bcrypt.hash(password, 10);
+      await db.query("UPDATE users SET password = $1 WHERE id = $2", [
+        hashedPassword,
+        decodedToken.userId,
+      ]);
+  
+      // Redirect to the login page or a success page
+      res.redirect("/api/login");
+    } catch (error) {
+      console.error("Error resetting password:", error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  };
+  

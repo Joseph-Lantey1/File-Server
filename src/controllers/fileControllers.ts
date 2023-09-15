@@ -5,8 +5,12 @@ import multer from "multer";
 import db from "../connection/database";
 
 
-
 const uploadDirectory: string = path.join(__dirname, "../uploads");
+
+// Check if the upload directory exists, and create it if it doesn't
+if (!fs.existsSync(uploadDirectory)) {
+    fs.mkdirSync(uploadDirectory);
+}
 
 const storage = multer.diskStorage({
     destination: (req: Request, file: Express.Multer.File, callback) => {
@@ -44,6 +48,7 @@ export const uploadFile = async (req: Request, res: Response) => {
         return res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
 
 export const getUploadedFiles = async (req: Request, res: Response) => {
     try {

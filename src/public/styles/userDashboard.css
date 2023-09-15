@@ -45,21 +45,23 @@ header {
 
 .profile {
     display: flex;
-    display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 5px;
     width: 240px;
     height: auto;
+    font-family: "Red hat display";
 }
 
 .profile h1, p a{
-    font-family: "Red hat display";
     color: rgb(4, 8, 146);
 }
 
 .profile p{
     height: auto;
+}
+
+.profile h1{
+    font-size: large ;
 }
 
 .profile p a{

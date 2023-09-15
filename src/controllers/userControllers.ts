@@ -72,10 +72,11 @@ export const userLogin = async (req: Request, res: Response) => {
     }
 
     if(existingUser.type === "admin"){
+      //ettgdsfgfg22
       return res.status(200).render("adminDashboard", {admin: 'Hi,Admin'})
     }
-    // return res.status(200).json({ message: "User Logged in" });
     return res.status(200).render("userDashboard", {user: existingUser.fullname});
+
   } catch (error) {
     console.log(error);
     return res.status(500).json("Internal Server Error");

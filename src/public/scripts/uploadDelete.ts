@@ -1,12 +1,14 @@
 // Function to fetch and update the file list
 async function updateFileList(): Promise<void> {
   try {
-    const response = await fetch("/getUploadedFiles");
+    const response = await fetch("/api/getUploadedFiles");
     if (response.ok) {
       const files: Array<{
         id: number;
         filename: string;
         description: string;
+        downloads : number;
+        emailsent: number
       }> = await response.json();
 
       // Update the UI with the updated file list
@@ -21,6 +23,9 @@ async function updateFileList(): Promise<void> {
             <div id="file-${file.id}">
               <p>File Name: ${file.filename}</p>
               <p>Description: ${file.description}</p>
+              <p>Downloads: ${file.downloads}</p>
+              <p>Email Sent: ${file.emailsent}</p>
+
             
             </div>
           `;
@@ -30,7 +35,7 @@ async function updateFileList(): Promise<void> {
         deleteButton.textContent = "Delete";
         deleteButton.addEventListener("click", async () => {
           try {
-            const deleteResponse = await fetch(`/deleteFile/${file.filename}`, {
+            const deleteResponse = await fetch(`/api/deleteFile/${file.filename}`, {
               method: "DELETE",
             });
 
@@ -80,7 +85,7 @@ document.getElementById("uploadForm")?.addEventListener("submit", async (e) => {
   formData.append("description", descriptionInput.value);
 
   try {
-    const response = await fetch("/upload", {
+    const response = await fetch("/api/upload", {
       method: "POST",
       body: formData,
     });

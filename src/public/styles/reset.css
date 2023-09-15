@@ -8,10 +8,12 @@
 }
 
 body {
-     height: 100vh;
-     display: flex;
-     justify-content: center;
-     align-items: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Exo 2', sans-serif;
+    background-color: #f0f0f0; /* Change to your desired background color */
 }
 
 .container {
@@ -22,9 +24,10 @@ body {
     border: 1px solid;
     border-color: rgb(21, 2, 124);
     margin: auto;
+    background-color: #fff; /* Change to your desired background color */
 }
 
-.description_details{
+.description_details {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -36,23 +39,20 @@ body {
 .description_details img {
     width: 100px;
     height: 100px;
-    margin: 0 auto; 
-    display: block; 
+    margin: 0 auto;
+    display: block;
     padding: 2px;
 }
 
-.description_details h1{
-    font-family: "Carter One";
-    display: block;
+.description_details h1 {
+    font-family: 'Carter One', sans-serif;
     color: aliceblue;
-    justify-content: center;
-    align-items: center;
     padding: 2px;
+    font-size: 36px; /* Increase or decrease the font size as needed */
 }
 
-.description_details p{
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    display: block;
+.description_details p {
+    font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif;
     color: aliceblue;
     padding: 2px;
     font-style: italic;
@@ -66,39 +66,34 @@ form {
     height: 500px;
 }
 
-.form-title{
-    font-family:"red hat display";
-    display: flex;
+.form-title {
+    font-family: 'Red Hat Text', sans-serif;
     font-size: 25px;
-    justify-content: center;
     padding: 20px;
-    color:black
+    color: black;
 }
 
-.email{
+.email {
     font-size: 20px;
     padding: 5px;
     font-weight: bolder;
 }
 
-label{
+label {
     color: rgba(37, 9, 197, 0.863);
     text-align: center;
     justify-content: center;
 }
 
-input{
+input {
     width: 300px;
     height: 40px;
-}
-
-input[type=email] {
     background: transparent;
     border: none;
     border-bottom: 1px solid rgba(37, 9, 197, 0.863);
 }
 
-button{
+button {
     margin-top: 20px;
     width: 200px;
     height: 40px;
@@ -108,6 +103,7 @@ button{
     font-weight: bolder;
     background-color: aliceblue;
     font-size: 15px;
+    cursor: pointer;
 }
 
 .new-account {
@@ -117,13 +113,10 @@ button{
 }
 
 .new-account a {
-    color: rgba(37, 9, 197, 0.863);/* Change to the desired color */
+    color: rgba(37, 9, 197, 0.863); /* Change to the desired color */
     text-decoration: none; /* Remove underline */
 }
 
 .new-account a:hover {
     text-decoration: underline; /* Add underline on hover */
 }
-
-
-
