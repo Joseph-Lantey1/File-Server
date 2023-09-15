@@ -5,10 +5,10 @@ export default class UserRegisterValidationMiddleware {
   static validate() {
     return [
       body("fullname")
-        .isLength({ min: 4 })
-        .withMessage('Username must be at least 4 characters')
+        .isLength({ min: 3 })
+        .withMessage('Fullname must be at least 3 characters')
         .exists()
-        .withMessage('Username is required')
+        .withMessage('Fullname is required')
         .trim()
         .escape(), // Escape the username
 

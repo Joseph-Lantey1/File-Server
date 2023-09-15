@@ -105,4 +105,5 @@ async function searchFiles() {
     updateFileListAndDownloadFile(searchQuery); // Pass the search query to filter the file list
   });
 }
+
 searchFiles();

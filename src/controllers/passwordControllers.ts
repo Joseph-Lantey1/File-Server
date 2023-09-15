@@ -5,33 +5,8 @@ import db from "../connection/database";
 import nodemailer from 'nodemailer';
 
 
-
-export const changePassword = async (req: Request, res: Response) => {
-    const { oldPassword, newPassword } = req.body;
-    const userId: number = req.body.userId;
-
-    try {
-        const result = await db.query("SELECT password FROM users WHERE id = $1", [userId])
-        const existingUser = result.rows[0];
-
-        if (!existingUser) {
-            return res.status(404).send({ message: "User not found" });
-        }
-
-        const isValidPassword = await bcrypt.compare(oldPassword, existingUser.password);
-
-        if (isValidPassword) {
-            return res.status(401).json({ message: "Invalid password" });
-        }
-
-        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-        await db.query("UPDATE users SET password = $1 WHERE id = $2", [hashedNewPassword, userId])
-
-        return res.status(200).json({ message: "Paasword changed successfully" })
-    } catch (error) {
-        return res.status(500).json({ message: "Internal server error" })
-    }
-
+export const reset =async (req:Request, res:Response) => {
+    res.render("reset");
 }
 
 

@@ -8,6 +8,9 @@ import { QueryResult } from "pg";
 export const signup =async (req:Request, res:Response) => {
   res.render("signup")
 }
+export const login =async (req:Request, res:Response) => {
+  res.render("login")
+}
 
 export const userSignup = async (req: Request, res: Response) => {
   const { fullname } = req.body;
@@ -36,7 +39,7 @@ export const userSignup = async (req: Request, res: Response) => {
 
     return res
       .status(200)
-      .json({ message: "User added successfully", token: token });
+      .render("login");
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Internal Server Error" });
@@ -72,7 +75,7 @@ export const userLogin = async (req: Request, res: Response) => {
       return res.status(200).render("adminDashboard", {admin: 'Hi,Admin'})
     }
     // return res.status(200).json({ message: "User Logged in" });
-    return res.status(200).render("userDashboard", {user: 'extingUser.fullname'});
+    return res.status(200).render("userDashboard", {user: existingUser.fullname});
   } catch (error) {
     console.log(error);
     return res.status(500).json("Internal Server Error");

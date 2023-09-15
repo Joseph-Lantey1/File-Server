@@ -17,13 +17,13 @@
             </div>
         </div>
         <div class="signup">
-            <form action="/userSignup" method="POST">
+            <form action="/api/signup" method="POST">
                 <div class="form-title"> 
                     <h1>Sign Up</h1>
                 </div>
                 <div class="fullname">
-                    <label for="username">Full name</label><br>
-                    <input type="text" name="username" id="username">
+                    <label for="fullname">Full name</label><br>
+                    <input type="text" name="fullname" id="fullname">
                 </div>
                 <div class="email">
                     <label for="email">Email</label><br>
@@ -38,7 +38,7 @@
                 <button type="submit"> Sign Up</button> 
                 <div class="old-account">
                     <p>Already a member ? 
-                        <a href="/login"> Log in</a></p>
+                        <a href="/api/login"> Log in</a></p>
                 </div> 
             </form>
         </div>
