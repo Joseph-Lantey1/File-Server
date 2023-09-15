@@ -1,6 +1,6 @@
 import passport from "passport";
-import { ExtractJwt, Strategy } from 'passport-Jwt';
 import db from "../connection/database";
+import { ExtractJwt, Strategy } from "passport-jwt";
 
 
 // Configuration options for JWT authentication

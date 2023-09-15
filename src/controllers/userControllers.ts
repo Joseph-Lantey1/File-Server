@@ -4,10 +4,12 @@ import jwt from "jsonwebtoken";
 import db from "../connection/database";
 import { QueryResult } from "pg";
 
-export const userSignup = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+
+export const signup =async (req:Request, res:Response) => {
+  res.render("signup")
+}
+
+export const userSignup = async (req: Request, res: Response) => {
   const { fullname } = req.body;
   const { email } = req.body;
   const { password } = req.body;
@@ -41,16 +43,10 @@ export const userSignup = async (
   }
 };
 
-export const userLogin = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const userLogin = async (req: Request, res: Response) => {
   const { email } = req.body;
   const { password } = req.body;
 
-  if (email === "lizyfileshare@gmail.com" && password === "connected") {
-    return res.status(200).json({ message: "Admin Logged in" });
-  }
   try {
     const response: QueryResult = await db.query(
       "SELECT * FROM users WHERE email = $1",
@@ -72,7 +68,11 @@ export const userLogin = async (
       return res.status(401).json({ message: "Invalid password" });
     }
 
-    return res.status(200).json({ message: "User Logged in" });
+    if(existingUser.type === "admin"){
+      return res.status(200).render("adminDashboard", {admin: 'Hi,Admin'})
+    }
+    // return res.status(200).json({ message: "User Logged in" });
+    return res.status(200).render("userDashboard", {user: 'extingUser.fullname'});
   } catch (error) {
     console.log(error);
     return res.status(500).json("Internal Server Error");

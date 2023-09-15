@@ -7,6 +7,8 @@ import passwordRoutes from "./routes/passwordRoutes";
 import db from "./connection/database";
 import fileRoutes from "./routes/fileRoutes";
 import downloadRoutes from "./routes/downloadRoutes";
+import path from "path"; 
+
 
 dotenv.config();
 
@@ -19,9 +21,10 @@ class Server {
     this.port = 5000;
 
     this.connectDatabase();
-
     this.configureMiddleware();
     this.configureRoutes();
+    this.configureEJS();
+    this.configureStaticDirectories(); 
     this.startServer();
   }
 
@@ -38,15 +41,31 @@ class Server {
     this.app.use("/api", downloadRoutes);
   }
 
+
   private async connectDatabase(): Promise<void> {
     try {
       await db.connect(); // Connect to the database
     } catch (error) {
-      console.error("Error connecting to the database:");
+      console.error("Error connecting to the database:", error);
     }
   }
 
+  private configureEJS(): void {
+    this.app.set("view engine", "ejs");
+    this.app.set("views", path.join(__dirname, "..", "src", "views"));
+  }
+
+
+  private configureStaticDirectories(): void {
+    this.app.use(express.static(path.join(__dirname, "/public")));
+  }
+
+
   private startServer(): void {
+    this.app.get("/", (req, res) => {
+      res.render("login");
+    })
+
     this.app.listen(this.port, () => {
       console.log(`Server is running on http://localhost:${this.port}`);
     });

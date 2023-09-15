@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard| Lizys File Share</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="img/file-icon2.png"> 
+    <link rel="stylesheet" type="text/css" href="styles/adminDashboard.css">
+</head>
+<body>
+    <header>
+        <div class="info">
+            <img src="img/file-icon2.png" alt="logo">
+            <div class="info_name">
+                <h1>Lizys File Share</h1>
+            </div>
+        </div>
+        <div class="profile">
+            <h1><%= admin %></h1>
+            <img src="img/profile-icon.jpg" alt="profile icon">
+            <p><a href="/login">Log Out</a></p>
+        </div>
+    </header>
+    <form action="/api/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+        <div class="content">
+            <h2>Upload Files</h2>
+            <input type="file" name="file" id="fileInput">
+            <input type="text" name="description" id="fileDescription" placeholder="File Description">
+            <button type="submit" id="uploadButton">Upload File</button>
+        
+            <!-- Display uploaded file details -->
+            <div id="fileList" >
+            
+            </div>
+        </div>
+    </form>
+    
+    <script src="scripts/uploadDelete.js"></script>
+</body>
+</html>

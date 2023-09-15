@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@200&family=Red+Hat+Text&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&family=Exo+2:wght@200&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+     height: 100vh;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+.container {
+    width: 800px;
+    height: 500px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.description {
+    width: 300px;
+    height: 500px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgb(26, 4, 104);
+}
+
+.description_details{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+}
+
+.description img {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto; 
+    display: block; 
+    padding: 2px;
+}
+
+.description h1{
+    font-family: "Carter One";
+    display: block;
+    color: rgb(13, 3, 158);
+    justify-content: center;
+    align-items: center;
+}
+
+.description p{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    display: block;
+    color: rgb(21, 2, 124);
+    padding:2px;
+    font-style: italic;
+}
+
+.signup {
+    width: 500px;
+    height: 500px;
+    background-color: aliceblue;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+}
+
+.form-title{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    color: rgb(21, 2, 124);
+}
+
+.username,.password,.email{
+    padding: 5px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+
+label{
+    color: rgb(21, 2, 124);
+}
+
+input{
+    width: 300px;
+    height: 40px;
+}
+
+input[type=text],input[type=email],input[type=password] {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgb(21, 2, 124);
+    text-indent: 10px;
+    font-size: 20px;
+    color: rgb(21, 2, 124);
+}
+
+button{
+    margin-top: 20px;
+    width: 100px;
+    height: 40px;
+    border-color: aliceblue;
+    border-radius: 8px;
+    color: aliceblue;
+    font-weight: bolder;
+    background-color: rgb(21, 2, 124);
+    font-size: 15px;
+}
+
+.password  {
+    color: rgb(21, 2, 124);
+    width: 300px;
+}
+
+/* Styling for the show password checkbox */
+#showPassword {
+    width: 20px;
+    vertical-align: middle;
+}
+
+/* Styling for the show password label */
+label[for="showPassword"] {
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: bold;
+    color: rgba(35, 7, 198, 0.962);
+    cursor: pointer;
+}
+
+.old-account {
+    padding: 30px;
+    color: rgb(21, 2, 124);
+}
+
+.old-account a {
+    color: rgb(21, 2, 124); /* Change to the desired color */
+    text-decoration: none; /* Remove underline */
+}
+
+.old-account a:hover {
+    text-decoration: underline; /* Add underline on hover */
+}
+
+
