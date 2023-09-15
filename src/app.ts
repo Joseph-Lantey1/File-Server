@@ -1,5 +1,4 @@
 import express, { Application } from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
 import userRoutes from "./routes/userRoutes";
@@ -10,7 +9,6 @@ import downloadRoutes from "./routes/downloadRoutes";
 import path from "path"; 
 
 
-dotenv.config();
 
 class Server {
   private app: Application;

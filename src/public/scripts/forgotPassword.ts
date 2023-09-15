@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // Replace with your own logic to submit the form to the server
       alert("Password reset link sent!");
     });
+
+    emailInput.textContent = "";
   
     // Email validation function
     function isValidEmail(email: string): boolean {
