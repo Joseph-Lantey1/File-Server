@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
   
-    resetForm.addEventListener("submit", function (event) {
+    resetForm.addEventListener("submit", async function (event) {
       event.preventDefault();
   
       // Clear previous error message
@@ -27,13 +27,22 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
   
-      // If validation passes, you can submit the form
-      // In this example, we're preventing actual form submission
-      // Replace with your own logic to submit the form to the server
-      alert("Password reset link sent!");
-    });
+      const response:Response = await fetch("/api/forgotPassword",
+      {method: "POST", 
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({email})})
 
-    emailInput.textContent = "";
+      if(response.status  === 200) {
+        alert("Password reset link sent!");
+        emailInput.textContent = "";
+
+      } else {
+        alert("Failed to send password reset link")
+      }
+  
+    });
   
     // Email validation function
     function isValidEmail(email: string): boolean {

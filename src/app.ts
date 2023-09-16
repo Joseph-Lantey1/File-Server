@@ -7,10 +7,13 @@ import db from "./connection/database";
 import fileRoutes from "./routes/fileRoutes";
 import downloadRoutes from "./routes/downloadRoutes";
 import path from "path"; 
+import dotenv from "dotenv";
+
+dotenv.config();
 
 
 
-class Server {
+export class Server {
   private app: Application;
   private port: number;
 

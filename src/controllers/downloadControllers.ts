@@ -5,7 +5,7 @@ import fs from "fs";
 import db from "../connection/database";
 
 export const renderUploadPage = (req: Request, res: Response) => {
-  res.render("user"); // Render the upload.ejs template
+  res.render("user"); 
 };
 
 export const download = async (req: Request, res: Response) => {
@@ -76,7 +76,7 @@ export const emailDownload = async (req: Request, res: Response) => {
       service: "Gmail",
       auth: {
         user: "lizyfileshare@gmail.com",
-        pass: "mtaoxkalhokhxfme",
+        pass: process.env.GMAIL_PASSWORD1,
       },
     });
 

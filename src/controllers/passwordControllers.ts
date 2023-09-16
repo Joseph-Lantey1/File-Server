@@ -16,6 +16,8 @@ export const resetPasswordPage = (req: Request, res: Response) => {
 export const resetPassword = async (req: Request, res: Response) => {
     const userEmail = req.body.email;
 
+    console.log(req.body);
+
     try {
         const result = await db.query("SELECT * FROM users WHERE email = $1", [
             userEmail,
@@ -31,15 +33,15 @@ export const resetPassword = async (req: Request, res: Response) => {
         });
 
         const transporter = nodemailer.createTransport({
-            service: "Gmail",
+            service: "gmail",
             auth: {
                 user: "lizyfileshare@gmail.com",
-                pass: "iuekvraenfioabxr",
+                pass: process.env.GMAIL_PASSWORD2,
             },
         });
 
-        const link = `http://localhost:5000/api/reset-password?token=${resetToken}`;
-
+        const link = `${req.hostname}:5000/api/reset-password?token=${resetToken}`;
+       
         const mailOptions = {
             from: "lizyfileshare@gmail.com",
             to: userEmail,
@@ -57,7 +59,6 @@ export const resetPassword = async (req: Request, res: Response) => {
             }
         });
 
-        res.send(`A password-reset link has been sent to ${userEmail}`);
     } catch (error) {
         console.error("Error resetting password:", error);
         res.status(500).json({ message: "Internal Server Error" });
@@ -69,7 +70,7 @@ export const resetNewPassword = async (req: Request, res: Response) => {
 
     try {
         // Verify and decode the token
-        const decodedToken = jwt.verify(token, "jbl") as { userId: string };
+        const decodedToken = jwt.verify(token, "process.env.SECRET_KEY") as { userId: string };
 
         // Update the user's password in the database
         const hashedPassword = await bcrypt.hash(password, 10);
