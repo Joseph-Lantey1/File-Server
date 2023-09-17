@@ -108,48 +108,14 @@ header {
     font-size: 15px;
 }
 
-.file-table {
+#fileList {
+    font-family: "Red Hat Display";
+    background-color: #fafbfc;
+    border: 1px solid #3502ec;
+    border-radius: 5px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    margin-top: 20px; /* Adjust as needed */
 }
 
-.table-header {
-    display: flex;
-    flex-direction: row;
-    background-color: #f2f2f2;
-    font-weight: bold;
-    padding: 10px;
-    border-top: 1px solid #ccc;
-}
 
-.header {
-    flex: 1;
-    padding: 10px;
-    text-align: center;
-    border-right: 1px solid #ccc;
-}
-
-.header:last-child {
-    border-right: none;
-}
-
-.uploaded-file {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    border-bottom: 1px solid #ccc;
-    padding: 10px;
-}
-
-.uploaded-file div {
-    flex: 1;
-    padding: 10px;
-    text-align: center;
-    border-right: 1px solid #ccc;
-}
-
-.uploaded-file div:last-child {
-    border-right: none;
-}

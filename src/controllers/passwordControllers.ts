@@ -48,7 +48,6 @@ export const resetPassword = async (req: Request, res: Response) => {
             subject: "Password Reset Link",
             html: `<p>Please click on the link to reset your password: <a href="${link}">${link}</a></p>`,
         };
-
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.error("Error sending mail", error);

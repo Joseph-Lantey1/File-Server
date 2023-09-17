@@ -25,8 +25,6 @@ async function updateFileList(): Promise<void> {
               <p>Description: ${file.description}</p>
               <p>Downloads: ${file.downloads}</p>
               <p>Email Sent: ${file.emailsent}</p>
-
-            
             </div>
           `;
 

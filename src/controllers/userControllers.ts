@@ -68,11 +68,11 @@ export const userLogin = async (req: Request, res: Response) => {
     );
 
     if (!validPassword) {
-      return res.status(401).json({ message: "Invalid password" });
+      alert("Invalid password")
+      // return res.status(401).json({ message: "Invalid password" });
     }
 
     if(existingUser.type === "admin"){
-      //ettgdsfgfg22
       return res.status(200).render("adminDashboard", {admin: 'Hi,Admin'})
     }
     return res.status(200).render("userDashboard", {user: existingUser.fullname});

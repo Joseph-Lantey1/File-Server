@@ -43,7 +43,7 @@ async function updateFileListAndDownloadFile(searchQuery: string | undefined = "
     const downloadButtonText: HTMLButtonElement = createButton("Download");
     const downloadButton: HTMLAnchorElement =  document.createElement('a');
     downloadButton.appendChild(downloadButtonText);
-    downloadButton.href = `/download/${encodeURIComponent(file.filename)}?id=${file.id}`;
+    downloadButton.href = `/api/download/${encodeURIComponent(file.filename)}?id=${file.id}`;
 
     const emailDownloadButton: HTMLButtonElement = createButton("Send to Email");
     const fileElement = document.createElement("div");
