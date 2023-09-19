@@ -20,7 +20,7 @@ class Database {
       client.release();
     } catch (error) {
       console.error("Error connecting to database:", error);
-      throw error; // Re-throw the error to indicate a failed connection
+      throw error; 
     }
   }
 

@@ -4,7 +4,7 @@ import fs from "fs";
 import multer from "multer";
 import db from "../connection/database";
 
-
+// Define the upload directory path
 const uploadDirectory: string = path.join(__dirname, "../uploads");
 
 // Check if the upload directory exists, and create it if it doesn't
@@ -12,6 +12,7 @@ if (!fs.existsSync(uploadDirectory)) {
     fs.mkdirSync(uploadDirectory);
 }
 
+// Configure storage for file uploads using Multer
 const storage = multer.diskStorage({
     destination: (req: Request, file: Express.Multer.File, callback) => {
         callback(null, uploadDirectory);
@@ -21,8 +22,10 @@ const storage = multer.diskStorage({
     },
 });
 
+// Create a Multer instance with the defined storage
 export const upload = multer({ storage: storage });
 
+// Handle file upload
 export const uploadFile = async (req: Request, res: Response) => {
     try {
         if (!req.file) {
@@ -49,7 +52,7 @@ export const uploadFile = async (req: Request, res: Response) => {
     }
 };
 
-
+// Retrieve a list of uploaded files
 export const getUploadedFiles = async (req: Request, res: Response) => {
     try {
         const files = await db.query("SELECT * FROM files", []);
@@ -60,9 +63,10 @@ export const getUploadedFiles = async (req: Request, res: Response) => {
     }
 };
 
+// Delete an uploaded file
 export const deleteFile = async (req: Request, res: Response) => {
     const filename = req.params.filename;
-    const filePath = path.join("dist", "uploads", filename);
+    const filePath = path.join(__dirname, "../uploads/", filename);
 
     try {
         // Check if the file exists before attempting to delete it
@@ -70,7 +74,7 @@ export const deleteFile = async (req: Request, res: Response) => {
             return res.status(404).json({ message: "File not found" });
         }
 
-        // Delete the file
+        // Delete the file from the file system
         fs.unlinkSync(filePath);
 
         // Delete the file record from the database
@@ -88,7 +92,7 @@ export const deleteFile = async (req: Request, res: Response) => {
     }
 };
 
-
+// Search for files by filename in the database
 export const searchFile = async (req: Request, res: Response) => {
     const filename = req.params.filename;
 
@@ -99,13 +103,11 @@ export const searchFile = async (req: Request, res: Response) => {
 
         const files = searchResults.rows;
 
+        // Handle the search results as needed
+
     } catch (error) {
         // Handle errors here
         console.error('Error searching for files:', error);
         res.status(500).send('Internal Server Error');
     }
 };
-
-
-
-

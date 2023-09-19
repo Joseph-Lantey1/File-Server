@@ -4,20 +4,24 @@ import jwt from "jsonwebtoken";
 import db from "../connection/database";
 import { QueryResult } from "pg";
 
-
-export const signup =async (req:Request, res:Response) => {
-  res.render("signup")
-}
-export const login =async (req:Request, res:Response) => {
-  res.render("login")
+// Render the signup page
+export const signup = async (req: Request, res: Response) => {
+  res.render("signup");
 }
 
+// Render the login page
+export const login = async (req: Request, res: Response) => {
+  res.render("login");
+}
+
+// Handle user signup
 export const userSignup = async (req: Request, res: Response) => {
   const { fullname } = req.body;
   const { email } = req.body;
   const { password } = req.body;
 
   try {
+    // Check if the user with the provided email already exists
     const response: QueryResult = await db.query(
       "SELECT * FROM users WHERE email = $1",
       [email]
@@ -26,17 +30,22 @@ export const userSignup = async (req: Request, res: Response) => {
     if (response.rows.length > 0) {
       return res.status(201).json({ message: "User exists" });
     }
+
+    // Hash the user's password before storing it
     const hashPassword = await bcrypt.hash(password, 10);
 
+    // Insert the new user into the database
     const newUser = await db.query(
-      "INSERT INTO users ( fullname, email, password) VALUES ($1, $2, $3) RETURNING id",
+      "INSERT INTO users (fullname, email, password) VALUES ($1, $2, $3) RETURNING id",
       [fullname, email, hashPassword]
     );
 
-    const token = jwt.sign({ userId: newUser.rows[0].id }, "process.env.SECRET_KEY", {
+    // Generate a JSON Web Token (JWT) for the new user
+    const token = jwt.sign({ userId: newUser.rows[0].id }, process.env.SECRET_KEY as string, {
       expiresIn: "1hr",
     });
 
+    // Render the login page after successful signup
     return res
       .status(200)
       .render("login");
@@ -46,11 +55,13 @@ export const userSignup = async (req: Request, res: Response) => {
   }
 };
 
+// Handle user login
 export const userLogin = async (req: Request, res: Response) => {
   const { email } = req.body;
   const { password } = req.body;
 
   try {
+    // Check if a user with the provided email exists
     const response: QueryResult = await db.query(
       "SELECT * FROM users WHERE email = $1",
       [email]
@@ -62,20 +73,21 @@ export const userLogin = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "No user found" });
     }
 
+    // Compare the provided password with the stored hashed password
     const validPassword: any = await bcrypt.compare(
       password,
       existingUser.password
     );
 
     if (!validPassword) {
-      alert("Invalid password")
-      // return res.status(401).json({ message: "Invalid password" });
+      return res.status(401).json({ message: "Invalid password" });
     }
 
-    if(existingUser.type === "admin"){
-      return res.status(200).render("adminDashboard", {admin: 'Hi,Admin'})
+    // Check if the user is an admin and render the admin dashboard, otherwise render the user dashboard
+    if (existingUser.type === "admin") {
+      return res.status(200).render("adminDashboard", { admin: 'Hi, Admin' });
     }
-    return res.status(200).render("userDashboard", {user: existingUser.fullname});
+    return res.status(200).render("userDashboard", { user: existingUser.fullname });
 
   } catch (error) {
     console.log(error);

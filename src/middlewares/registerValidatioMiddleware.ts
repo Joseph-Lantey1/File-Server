@@ -14,7 +14,6 @@ export default class UserRegisterValidationMiddleware {
 
       body("email")
         .isEmail()
-        .normalizeEmail()
         .withMessage('Invalid Email')
         .exists(),
 

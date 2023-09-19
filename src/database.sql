@@ -13,3 +13,10 @@ CREATE table files (
     downloads integer default 0,
     emailsent integer default 0
 );
+
+CREATE TABLE password_reset_tokens (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    token TEXT NOT NULL,
+    expires_at TIMESTAMPTZ NOT NULL
+);

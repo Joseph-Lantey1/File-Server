@@ -38,12 +38,9 @@ async function updateFileList(): Promise<void> {
             });
 
             if (deleteResponse.ok) {
-              // Handle success, e.g., show a success message
               console.log("File deleted successfully");
-              // Update the file list after deletion
               updateFileList();
             } else {
-              // Handle error, e.g., display an error message
               console.error("Error deleting file:", deleteResponse.statusText);
             }
           } catch (error) {
@@ -55,7 +52,6 @@ async function updateFileList(): Promise<void> {
         fileListContainer.appendChild(fileElement);
       });
     } else {
-      // Handle error, e.g., display an error message
       console.error("Error fetching file list:", response.statusText);
     }
   } catch (error) {
@@ -89,7 +85,6 @@ document.getElementById("uploadForm")?.addEventListener("submit", async (e) => {
     });
 
     if (response.ok) {
-      // Handle success, e.g., show a success message
       console.log("File uploaded successfully");
 
       // Clear the form fields and file input value
@@ -99,7 +94,6 @@ document.getElementById("uploadForm")?.addEventListener("submit", async (e) => {
       // Update the file list after a successful upload
       updateFileList();
     } else {
-      // Handle error, e.g., display an error message
       console.error("Error uploading file:", response.statusText);
     }
   } catch (error) {

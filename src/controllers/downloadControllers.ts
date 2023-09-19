@@ -4,10 +4,12 @@ import nodemailer from "nodemailer";
 import fs from "fs";
 import db from "../connection/database";
 
+// Render the upload page
 export const renderUploadPage = (req: Request, res: Response) => {
-  res.render("user"); 
+  res.render("user"); // Renders the "user" view
 };
 
+// Handle file download
 export const download = async (req: Request, res: Response) => {
   try {
     const filename = req.params.filename;
@@ -18,8 +20,9 @@ export const download = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "file not found" });
     }
 
-    res.download(filePath);
+    res.download(filePath); // Trigger file download for the client
 
+    // Update the download count in the database
     const result = await db.query("SELECT * FROM files WHERE id = $1 LIMIT 1", [
       req.query.id,
     ]);
@@ -36,6 +39,7 @@ export const download = async (req: Request, res: Response) => {
   }
 };
 
+// Send file download link via email
 export const emailDownload = async (req: Request, res: Response) => {
   try {
     const userEmail = req.body.email;
