@@ -81,13 +81,10 @@ To successfully complete this project, the following deliverables are expected:
 - How to build REST APIs and use the MVC architecture
 - How to make HTTP requests
 
-## API Documentation
-
-Detailed API documentation can be found in the Swagger documentation at `<swagger_url>`.
 
 ## Deployment
 
-The application has been deployed and can be accessed at the following link: `<deployed_link>`.
+The application has been deployed and can be accessed at the following link: `<d>`.
 
 ### Useful resources
 

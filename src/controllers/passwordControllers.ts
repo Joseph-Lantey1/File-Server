@@ -60,7 +60,7 @@ export const resetPassword = async (req: Request, res: Response) => {
         };
 
         // Send the email with the reset link
-        transporter.sendMail(mailOptions, (error, info) => {
+        transporter.sendMail(mailOptions, (error: Error | null, info: nodemailer.SentMessageInfo) => {
             if (error) {
                 console.error("Error sending mail", error);
                 return res.status(500).json({ message: "Error sending mail" });

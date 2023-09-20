@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 import fs from "fs";
 import db from "../connection/database";
 
+
 // Render the upload page
 export const renderUploadPage = (req: Request, res: Response) => {
   res.render("user"); // Renders the "user" view
@@ -97,7 +98,7 @@ export const emailDownload = async (req: Request, res: Response) => {
       ],
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, (error: Error | null, info: any) => {
       if (error) {
         console.error("Error sending mail", error);
         return res.status(500).json({ message: "Error sending mail" });
@@ -105,9 +106,9 @@ export const emailDownload = async (req: Request, res: Response) => {
         console.log("Email sent successfully", info.response);
         return res.status(200).json({ message: "Email sent successfully" });
       }
-    });
-  } catch (error) {
-    console.error("Error in emailDownload:", error);
-    return res.status(500).json({ message: "Internal Server Error" });
-  }
+      });
+    } catch (error) {
+      console.error("Error in emailDownload:", error);
+      return res.status(500).json({ message: "Internal Server Error" });
+    }
 };
