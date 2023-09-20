@@ -33,9 +33,6 @@ export class Server {
     // Configure static directories for serving files
     this.configureStaticDirectories();
 
-    // Configure error handling
-    this.errorHandler();
-
     // Start the server
     this.startServer();
   }
@@ -45,6 +42,7 @@ export class Server {
     this.app.use(cors());
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
+
   }
 
   // Configure API routes
@@ -73,16 +71,6 @@ export class Server {
   // Configure static directories for serving files (e.g., CSS, JavaScript)
   private configureStaticDirectories(): void {
     this.app.use(express.static(path.join(__dirname, "public"))); // Define the path to the public directory
-  }
-
-  // Error handling middleware
-  private errorHandler(): void {
-    this.app.use(
-      (err: Error | null, req: Request, res: Response, next: NextFunction) => {
-        console.error("Error:", err);
-        res.status(500).json({ error: "Internal Server Error" });
-      }
-    );
   }
 
   // Start the server and define a basic route for the root URL ("/")
