@@ -70,7 +70,7 @@ export const userLogin = async (req: Request, res: Response) => {
     const existingUser = response.rows[0];
 
     if (!existingUser) {
-      return res.status(400).json({ message: "No user found" });
+      throw new Error("Invalid password")
     }
 
     // Compare the provided password with the stored hashed password
@@ -80,7 +80,7 @@ export const userLogin = async (req: Request, res: Response) => {
     );
 
     if (!validPassword) {
-      return res.status(401).json({ message: "Invalid password" });
+      throw new Error("Invalid password");
     }
 
     // Check if the user is an admin and render the admin dashboard, otherwise render the user dashboard

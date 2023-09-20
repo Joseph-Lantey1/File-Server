@@ -1,5 +1,5 @@
 // Import necessary modules and libraries
-import express, { Application } from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import userRoutes from "./routes/userRoutes";
@@ -7,8 +7,7 @@ import passwordRoutes from "./routes/passwordRoutes";
 import db from "./connection/database";
 import fileRoutes from "./routes/fileRoutes";
 import downloadRoutes from "./routes/downloadRoutes";
-import path from "path"; 
-
+import path from "path";
 
 // Create a class for the Express server
 export class Server {
@@ -34,15 +33,18 @@ export class Server {
     // Configure static directories for serving files
     this.configureStaticDirectories();
 
+    // Configure error handling
+    this.errorHandler();
+
     // Start the server
     this.startServer();
   }
 
   // Configure middleware functions
   private configureMiddleware(): void {
-    this.app.use(cors()); 
-    this.app.use(bodyParser.json()); 
-    this.app.use(bodyParser.urlencoded({ extended: true })); 
+    this.app.use(cors());
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: true }));
   }
 
   // Configure API routes
@@ -71,6 +73,16 @@ export class Server {
   // Configure static directories for serving files (e.g., CSS, JavaScript)
   private configureStaticDirectories(): void {
     this.app.use(express.static(path.join(__dirname, "public"))); // Define the path to the public directory
+  }
+
+  // Error handling middleware
+  private errorHandler(): void {
+    this.app.use(
+      (err: Error | null, req: Request, res: Response, next: NextFunction) => {
+        console.error("Error:", err);
+        res.status(500).json({ error: "Internal Server Error" });
+      }
+    );
   }
 
   // Start the server and define a basic route for the root URL ("/")
