@@ -8,10 +8,7 @@ import db from "./connection/database";
 import fileRoutes from "./routes/fileRoutes";
 import downloadRoutes from "./routes/downloadRoutes";
 import path from "path"; 
-import dotenv from "dotenv";
 
-// Load environment variables from a .env file
-dotenv.config();
 
 // Create a class for the Express server
 export class Server {

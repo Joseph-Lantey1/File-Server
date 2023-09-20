@@ -1,16 +1,23 @@
 import { Pool, PoolClient } from "pg";
+import dotenv from "dotenv";
+
+// Load environment variables from a .env file
+dotenv.config();
 
 class Database {
   private pool: Pool;
 
   constructor() {
+    // this.pool = new Pool({
+    //  user: process.env.DB_USER as string,
+    // database: process.env.DB_NAME as string,
+    // password: process.env.DB_PASSWORD as string,
+    // host: process.env.DB_HOST as string,
+    // port: 5432 as number
+    // });
     this.pool = new Pool({
-     user: "postgres" as string,
-    database: "fileserver" as string, 
-    password: "postgres" as string,
-    host: "localhost" as string,
-    port: 5432 as number
-    });
+      connectionString: process.env.CONNECTION_STRING as string,
+  })
   }
 
   public async connect(): Promise<void> {
