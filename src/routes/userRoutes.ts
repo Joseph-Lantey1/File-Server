@@ -6,11 +6,11 @@ import UserRegisterValidationMiddleware from "../middlewares/registerValidatioMi
 
 const router = express.Router();
 
+router.post("/signup", UserRegisterValidationMiddleware.validate(), userSignup);
+router.get("/signup", signup);
 
 router.post("/login", userLogin);
 router.get("/login", login);
 
-router.post("/signup", UserRegisterValidationMiddleware.validate(), userSignup);
-router.get("/signup", signup);
 
 export default router;

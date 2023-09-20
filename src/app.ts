@@ -1,5 +1,5 @@
 // Import necessary modules and libraries
-import express, { Application, Request, Response, NextFunction } from "express";
+import express, { Application } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import userRoutes from "./routes/userRoutes";
