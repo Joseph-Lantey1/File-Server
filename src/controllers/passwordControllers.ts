@@ -52,7 +52,7 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
             },
         });
 
-        const link = `http://${req.hostname}:5000/api/reset-password?token=${resetToken}`;
+        const link = `http://${req.hostname}/api/reset-password?token=${resetToken}`;
 
         const mailOptions = {
             from: "lizyfileshare@gmail.com",
