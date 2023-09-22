@@ -1,8 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import db from "../connection/database";
 import nodemailer from "nodemailer";
+import { AuthenticationError, DatabaseError } from "../middlewares/errorHandlingMiddleware";
 
 // Render the forgot password page
 export const forgotPassword = async (req: Request, res: Response) => {
@@ -10,7 +11,8 @@ export const forgotPassword = async (req: Request, res: Response) => {
 };
 
 // Handle the reset password request
-export const resetPassword = async (req: Request, res: Response) => {
+// Handle the reset password request
+export const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
     const userEmail = req.body.email;
 
     console.log(req.body);
@@ -23,7 +25,7 @@ export const resetPassword = async (req: Request, res: Response) => {
         const existingUser = result.rows[0];
 
         if (!existingUser) {
-            return res.status(404).json({ message: "Email not found" });
+            throw new AuthenticationError("Email not found");
         }
 
         // Generate a reset token that expires in 1 hour
@@ -63,15 +65,14 @@ export const resetPassword = async (req: Request, res: Response) => {
         transporter.sendMail(mailOptions, (error: Error | null, info: nodemailer.SentMessageInfo) => {
             if (error) {
                 console.error("Error sending mail", error);
-                return res.status(500).json({ message: "Error sending mail" });
+                throw new DatabaseError("Error sending mail");
             } else {
                 console.log("Email sent successfully", info.response);
                 return res.status(200).json({ message: "Email sent successfully" });
             }
         });
     } catch (error) {
-        console.error("Error resetting password:", error);
-        res.status(500).json({ message: "Internal Server Error" });
+        next(error); // Pass the error to the errorHandlingMiddleware
     }
 };
 
@@ -98,7 +99,7 @@ export const resetPasswordPage = async (req: Request, res: Response) => {
 };
 
 // Handle the submission of the new password
-export const resetNewPassword = async (req: Request, res: Response) => {
+export const resetNewPassword = async (req: Request, res: Response, next: NextFunction) => {
     const newPassword = req.body.password;
     const token = req.body.token; // Retrieve the token from the form body
 
@@ -112,7 +113,7 @@ export const resetNewPassword = async (req: Request, res: Response) => {
         );
 
         if (result.rows.length === 0) {
-            return res.status(401).json({ message: "Token is invalid or expired" });
+            throw new AuthenticationError("Token is invalid or expired");
         }
 
         const userId = result.rows[0].user_id;
@@ -132,8 +133,6 @@ export const resetNewPassword = async (req: Request, res: Response) => {
         // Redirect to the login page
         res.redirect("/api/login");
     } catch (error) {
-        console.error("Error resetting password:", error);
-        console.log(error);
-        res.status(500).json({ message: "Internal Server Error" });
+        next(error); // Pass the error to the errorHandlingMiddleware
     }
 };

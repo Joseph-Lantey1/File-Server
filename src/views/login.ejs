@@ -21,6 +21,9 @@
             <form action="/api/login"  method="POST">
                 <div class="form-title"> 
                     <h1>Log in</h1>
+                    <% if (locals.alertMessage) { %>
+                        <p class="error-message"><%= locals.alertMessage %></p>
+                      <% } %>
                 </div>
                 <div class="email">
                     <label for="email">Email</label><br>

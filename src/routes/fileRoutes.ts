@@ -1,5 +1,8 @@
 import express from "express";
 import { deleteFile, getUploadedFiles, searchFile, upload, uploadFile } from "../controllers/fileControllers";
+import { protect } from "../controllers/authController";
+
+
 
 const router =  express.Router();
 

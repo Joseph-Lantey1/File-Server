@@ -1,8 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import path from "path";
 import fs from "fs";
 import multer from "multer";
 import db from "../connection/database";
+import { DatabaseError } from "../middlewares/errorHandlingMiddleware";
 
 // Define the upload directory path
 const uploadDirectory: string = path.join(__dirname, "../uploads");
@@ -26,10 +27,10 @@ const storage = multer.diskStorage({
 export const upload = multer({ storage: storage });
 
 // Handle file upload
-export const uploadFile = async (req: Request, res: Response) => {
+export const uploadFile = async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (!req.file) {
-            return res.status(400).json({ message: "No file uploaded." });
+            throw new DatabaseError("No file uploaded.");
         }
         const uploadedFile = req.file as Express.Multer.File;
 
@@ -47,31 +48,29 @@ export const uploadFile = async (req: Request, res: Response) => {
 
         return res.status(201).json({ id: fileId, filename, description });
     } catch (error) {
-        console.error("Error uploading file: ", error);
-        return res.status(500).json({ message: "Internal Server Error" });
+        next(error); // Pass the error to the errorHandlingMiddleware
     }
 };
 
 // Retrieve a list of uploaded files
-export const getUploadedFiles = async (req: Request, res: Response) => {
+export const getUploadedFiles = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const files = await db.query("SELECT * FROM files", []);
         res.status(200).json(files.rows);
     } catch (error) {
-        console.log("Error fetching uploaded files", error);
-        res.status(500).json({ message: "Error fetching uploaded files", error });
+        next(error); // Pass the error to the errorHandlingMiddleware
     }
 };
 
 // Delete an uploaded file
-export const deleteFile = async (req: Request, res: Response) => {
+export const deleteFile = async (req: Request, res: Response, next: NextFunction) => {
     const filename = req.params.filename;
     const filePath = path.join(__dirname, "../uploads/", filename);
 
     try {
         // Check if the file exists before attempting to delete it
         if (!fs.existsSync(filePath)) {
-            return res.status(404).json({ message: "File not found" });
+            throw new DatabaseError("File not found");
         }
 
         // Delete the file from the file system
@@ -84,30 +83,32 @@ export const deleteFile = async (req: Request, res: Response) => {
         if (result.rowCount > 0) {
             res.status(200).json({ message: "File deleted successfully" });
         } else {
-            res.status(404).json({ message: "File not found" });
+            throw new DatabaseError("File not found");
         }
     } catch (error) {
-        console.error("Error deleting file:", error);
-        res.status(500).json({ message: "Error deleting file" });
+        next(error); // Pass the error to the errorHandlingMiddleware
     }
 };
 
 // Search for files by filename in the database
-export const searchFile = async (req: Request, res: Response) => {
+export const searchFile = async (req: Request, res: Response, next: NextFunction) => {
     const filename = req.params.filename;
 
     try {
         // Search for files in the database matching the filename
-        const searchResults = await db.query("SELECT id, filename, description FROM files WHERE filename LIKE $1", 
+        const searchResults = await db.query("SELECT id, filename, description FROM files WHERE filename LIKE $1",
         [filename]);
 
         const files = searchResults.rows;
 
-        // Handle the search results as needed
+        if (files.length === 0) {
+            // No files found matching the query
+            throw new DatabaseError("No files found");
+        }
 
+        // Files found, send them as a JSON response
+        return res.status(200).json({ message: "Search results", files });
     } catch (error) {
-        // Handle errors here
-        console.error('Error searching for files:', error);
-        res.status(500).send('Internal Server Error');
+        next(error); // Pass the error to the errorHandlingMiddleware
     }
 };

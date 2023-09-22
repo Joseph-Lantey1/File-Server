@@ -18,22 +18,11 @@ export class Server {
     this.app = express();
     this.port = 5000; // Define the server port
 
-    // Connect to the database
     this.connectDatabase();
-
-    // Configure middleware functions
     this.configureMiddleware();
-
-    // Configure routing for various API endpoints
     this.configureRoutes();
-
-    // Configure the view engine (EJS in this case)
     this.configureEJS();
-
-    // Configure static directories for serving files
     this.configureStaticDirectories();
-
-    // Start the server
     this.startServer();
   }
 
@@ -73,9 +62,7 @@ export class Server {
     this.app.use(express.static(path.join(__dirname, "public"))); // Define the path to the public directory
   }
 
-  // Start the server and define a basic route for the root URL ("/")
   private startServer(): void {
-    // Define a route for the root URL ("/") that renders a "login" view
     this.app.get("/", (req, res) => {
       res.render("login");
     });

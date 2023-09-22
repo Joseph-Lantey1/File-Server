@@ -170,3 +170,8 @@ select{
 }
 
 
+.error-message {
+    color: #ff0000; /* Set the text color to a contrasting color */
+    font-size: 16px; /* Adjust the font size as needed */
+  }
+  

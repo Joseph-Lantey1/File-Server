@@ -1,8 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import db from "../connection/database";
 import { QueryResult } from "pg";
+import { AuthenticationError } from "../middlewares/errorHandlingMiddleware";
 
 // Render the signup page
 export const signup = async (req: Request, res: Response) => {
@@ -14,8 +15,16 @@ export const login = async (req: Request, res: Response) => {
   res.render("login");
 }
 
+export const renderUserDashboard = (req: Request, res: Response) => {
+  res.render("userDashboard");
+};
+
+export const renderAdminDashboard = (req: Request, res: Response) => {
+  res.render("adminDashboard");
+};
+
 // Handle user signup
-export const userSignup = async (req: Request, res: Response) => {
+export const userSignup = async (req: Request, res: Response, next: NextFunction) => {
   const { fullname } = req.body;
   const { email } = req.body;
   const { password } = req.body;
@@ -28,7 +37,7 @@ export const userSignup = async (req: Request, res: Response) => {
     );
 
     if (response.rows.length > 0) {
-      return res.status(201).json({ message: "User exists" });
+      throw new AuthenticationError("User exists");
     }
 
     // Hash the user's password before storing it
@@ -48,15 +57,14 @@ export const userSignup = async (req: Request, res: Response) => {
     // Render the login page after successful signup
     return res
       .status(200)
-      .render("login");
+      .render("login", { token: token });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    next(error); // Pass the error to the errorHandlingMiddleware
   }
 };
 
 // Handle user login
-export const userLogin = async (req: Request, res: Response) => {
+export const userLogin = async (req: Request, res: Response, next: NextFunction) => {
   const { email } = req.body;
   const { password } = req.body;
 
@@ -70,7 +78,9 @@ export const userLogin = async (req: Request, res: Response) => {
     const existingUser = response.rows[0];
 
     if (!existingUser) {
-      return res.status(400).json({ message: "No user found" });
+      // Display an alert message for "No user found"
+      res.status(401).render("login", { alertMessage: "No user found" });
+      return;
     }
 
     // Compare the provided password with the stored hashed password
@@ -80,7 +90,9 @@ export const userLogin = async (req: Request, res: Response) => {
     );
 
     if (!validPassword) {
-      return res.status(401).json({ message: "Invalid password" });
+      // Display an alert message for "Invalid password"
+      res.status(401).render("login", { alertMessage: "Invalid password" });
+      return;
     }
 
     // Check if the user is an admin and render the admin dashboard, otherwise render the user dashboard
@@ -90,7 +102,6 @@ export const userLogin = async (req: Request, res: Response) => {
     return res.status(200).render("userDashboard", { user: existingUser.fullname });
 
   } catch (error) {
-    console.log(error);
-    return res.status(500).json("Internal Server Error");
+    next(error); // Pass the error to the errorHandlingMiddleware
   }
 };
