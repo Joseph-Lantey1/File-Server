@@ -1,6 +1,7 @@
 import { Response, NextFunction } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import db from "../connection/database";
+import { AuthenticationError } from "../middlewares/errorHandlingMiddleware";
 
 interface Request {
     headers: any;
@@ -22,7 +23,7 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
     }
 
     if (!token) {
-        return next(new Error("You are not allowed to access this page")); // Return early to avoid further execution
+        throw new AuthenticationError("You are not allowed to access this page"); // Return early to avoid further execution
     }
 
     try {
